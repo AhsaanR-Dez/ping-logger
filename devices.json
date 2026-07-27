@@ -1,0 +1,5 @@
+[
+    { "name": "google", "host": "https://www.google.com" },
+    { "name": "github", "host": "https://api.github.com" },
+    { "name": "broken", "host": "https://this-host-does-not-exist.invalid" }
+  ]

@@ -10,13 +10,13 @@
     "typecheck": "tsc --noEmit"
 },
   "repository": {
-    "type": "module",
+    "type": "git",     
     "url": "git+https://github.com/AhsaanR-Dez/ping-logger.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/AhsaanR-Dez/ping-logger/issues"
   },
