@@ -29,31 +29,34 @@ function toDevice(value: unknown, index: number): Device {
   return { name: value["name"], host: value["host"] };
 }
 
-export async function readDevices(path: string): Promise<Device[]> {
-  let raw: string;
-  try {
-    raw = await readFile(path, "utf8");
-  } catch (cause) {
-    throw new DeviceConfigError(`Could not read device config at "${path}".`, { cause });
+export function parseDevices(raw: string, source: string): Device[] {
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(raw);
+    } catch (cause) {
+      throw new DeviceConfigError(`Device config at "${source}" is not valid JSON.`, { cause });
+    }
+  
+    if (!Array.isArray(parsed)) {
+      throw new DeviceConfigError(`Device config at "${source}" must be a JSON array.`);
+    }
+  
+    const entries: unknown[] = parsed;
+    const devices = entries.map(toDevice);
+  
+    if (devices.length === 0) {
+      throw new DeviceConfigError(`Device config at "${source}" contains no devices.`);
+    }
+  
+    return devices;
   }
-
-  let parsed: unknown;
-  try {
-    parsed = JSON.parse(raw);
-  } catch (cause) {
-    throw new DeviceConfigError(`Device config at "${path}" is not valid JSON.`, { cause });
+  
+  export async function readDevices(path: string): Promise<Device[]> {
+    let raw: string;
+    try {
+      raw = await readFile(path, "utf8");
+    } catch (cause) {
+      throw new DeviceConfigError(`Could not read device config at "${path}".`, { cause });
+    }
+    return parseDevices(raw, path);
   }
-
-  if (!Array.isArray(parsed)) {
-    throw new DeviceConfigError(`Device config at "${path}" must be a JSON array.`);
-  }
-
-  const entries: unknown[] = parsed;
-  const devices = entries.map(toDevice);
-
-  if (devices.length === 0) {
-    throw new DeviceConfigError(`Device config at "${path}" contains no devices.`);
-  }
-
-  return devices;
-}
