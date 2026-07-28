@@ -5,12 +5,14 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "tsx src/index.ts",
-    "build": "tsc",
+    "build": "tsc -p tsconfig.build.json",
     "start": "node dist/index.js",
-    "typecheck": "tsc --noEmit"
-},
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --coverage",
+    "test:watch": "vitest"
+  },
   "repository": {
-    "type": "git",     
+    "type": "git",
     "url": "git+https://github.com/AhsaanR-Dez/ping-logger.git"
   },
   "keywords": [],
@@ -23,7 +25,9 @@
   "homepage": "https://github.com/AhsaanR-Dez/ping-logger#readme",
   "devDependencies": {
     "@types/node": "^26.1.2",
+    "@vitest/coverage-v8": "^4.1.10",
     "tsx": "^4.23.1",
-    "typescript": "^7.0.2"
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.10"
   }
 }
